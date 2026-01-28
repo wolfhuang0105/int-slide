@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOLF 職涯里程碑與專業核心</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+        body { font-family: 'Inter', 'PingFang TC', 'Microsoft JhengHei', sans-serif; }
+        .slide-nav { opacity: 0.3; transition: all 0.3s ease; }
+        .slide-nav:hover { opacity: 1; }
+    </style>
+</head>
+<body class="bg-slate-200">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // 圖示組件：封裝 Lucide 以利在 React 中使用
+        const Icon = ({ name, size = 24, className = "" }) => {
+            const iconRef = React.useRef(null);
+
+            useEffect(() => {
+                if (iconRef.current) {
+                    // 清空舊內容並渲染新圖示
+                    iconRef.current.innerHTML = '';
+                    const iconElement = lucide.createIcons({
+                        icons: { [name]: lucide[name] },
+                        attrs: { 
+                            strokeWidth: 2,
+                            width: size,
+                            height: size,
+                            class: className
+                        }
+                    });
+                }
+            }, [name, size, className]);
+
+            return <span ref={iconRef} className="inline-block" />;
+        };
+
+        const App = () => {
+            const [currentSlide, setCurrentSlide] = useState(0);
+
+            const nextSlide = () => setCurrentSlide((prev) => (prev === 1 ? 0 : 1));
+            const prevSlide = () => setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+
+            return (
+                <div className="min-h-screen flex flex-col items-center justify-center p-4">
+                    {/* Slide Container */}
+                    <div className="relative w-full max-w-6xl aspect-[16/9] bg-white shadow-2xl overflow-hidden border border-slate-300 rounded-lg">
+                        
+                        {/* Slide 1: Chinese Version */}
+                        {currentSlide === 0 && (
+                            <div className="h-full w-full flex flex-col px-12 py-8 bg-white animate-fadeIn">
+                                {/* Header */}
+                                <div className="text-center mb-6">
+                                    <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-2">WOLF 的職涯里程碑與專業核心</h1>
+                                    <p className="text-xl lg:text-2xl text-blue-600 font-bold tracking-wide">從執行到管理的資源整合專家</p>
+                                </div>
+
+                                {/* Overview Section */}
+                                <div className="mb-6">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="h-5 w-1.5 bg-slate-900"></div>
+                                        <h2 className="text-lg font-bold text-slate-500 uppercase tracking-widest">個人專業概覽</h2>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div className="bg-slate-50 border border-slate-200 p-6 flex items-center gap-6 rounded-xl shadow-sm">
+                                            <div className="text-6xl font-black text-slate-800">14<span className="text-blue-600">+</span></div>
+                                            <div>
+                                                <h3 className="text-xl font-bold">14+ 年跨領域專案經驗</h3>
+                                                <p className="text-slate-500 text-sm font-medium">IT 服務、製造業及金融業</p>
+                                            </div>
+                                        </div>
+                                        <div className="bg-slate-50 border border-slate-200 p-6 flex items-center gap-6 rounded-xl shadow-sm">
+                                            <div className="bg-slate-900 p-4 rounded-lg text-white">
+                                                <Icon name="Award" size={40} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-xl font-bold">PMP 國際專案管理師</h3>
+                                                <p className="text-slate-500 text-sm font-medium">具備國際標準知識體系</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Timeline Section */}
+                                <div className="mb-6">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <div className="h-5 w-1.5 bg-slate-900"></div>
+                                        <h2 className="text-lg font-bold text-slate-500 uppercase tracking-widest">職涯發展三部曲</h2>
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-6 relative">
+                                        <div className="absolute top-5 left-0 w-full h-0.5 bg-slate-200 -z-0"></div>
+                                        {[
+                                            { id: 1, title: "階段一：6 年創業實戰", sub: "奠定開拓與解決問題能力", icon: "Rocket" },
+                                            { id: 2, title: "階段二：IT 服務一條龍", sub: "涵蓋售前、開發至後續維護", icon: "Workflow" },
+                                            { id: 3, title: "階段三：PMO 專案治理", sub: "建立系統化的管理制度", icon: "Landmark" }
+                                        ].map((phase) => (
+                                            <div key={phase.id} className="relative z-10 flex flex-col items-center">
+                                                <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-lg mb-3 border-4 border-white shadow-md">{phase.id}</div>
+                                                <div className="bg-white border border-slate-200 p-5 rounded-xl text-center shadow-sm w-full h-36 flex flex-col items-center justify-center hover:border-blue-300 transition-colors">
+                                                    <div className="text-blue-600 mb-3">
+                                                        <Icon name={phase.icon} size={32} />
+                                                    </div>
+                                                    <h4 className="text-base lg:text-lg font-bold mb-1">{phase.title}</h4>
+                                                    <p className="text-xs lg:text-sm text-slate-500 font-medium">{phase.sub}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Footer */}
+                                <div className="mt-auto flex justify-between items-center pt-6 border-t border-slate-100">
+                                    <div className="bg-blue-600 text-white px-8 py-3 rounded-full flex items-center gap-2 shadow-lg">
+                                        <Icon name="Target" size={20} />
+                                        <span className="text-lg font-bold">核心價值：能動手做的資源整合者</span>
+                                    </div>
+                                    <div className="text-2xl font-black text-slate-800">
+                                        期待加入 <span className="text-blue-600">ASUS</span>，貢獻專業價值
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Slide 2: English Version */}
+                        {currentSlide === 1 && (
+                            <div className="h-full w-full flex flex-col px-12 py-8 bg-slate-900 text-white animate-fadeIn">
+                                {/* Header */}
+                                <div className="text-center mb-6">
+                                    <h1 className="text-4xl lg:text-5xl font-extrabold mb-2">Program & Transformation Professional</h1>
+                                    <p className="text-xl lg:text-2xl text-blue-400 font-bold tracking-tight">Strategic Execution • Process Scalability • PMO Expert</p>
+                                </div>
+
+                                {/* Overview */}
+                                <div className="mb-6">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="h-5 w-1.5 bg-blue-400"></div>
+                                        <h2 className="text-lg font-bold text-slate-400 uppercase tracking-widest font-mono">Expertise Profile</h2>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div className="bg-white/5 border border-white/10 p-6 flex items-center gap-6 rounded-xl">
+                                            <div className="text-6xl font-black text-white">14<span className="text-blue-400">+</span></div>
+                                            <div>
+                                                <h3 className="text-xl font-bold italic">14+ Years Experience</h3>
+                                                <p className="text-blue-200 text-sm font-medium">IT • Manufacturing • Finance</p>
+                                            </div>
+                                        </div>
+                                        <div className="bg-white/5 border border-white/10 p-6 flex items-center gap-6 rounded-xl">
+                                            <div className="bg-blue-600 p-4 rounded-lg text-white">
+                                                <Icon name="ShieldCheck" size={40} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-xl font-bold italic">PMP® Certified</h3>
+                                                <p className="text-blue-200 text-sm font-medium">Global Standard Methodology</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Three Phases */}
+                                <div className="mb-6">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <div className="h-5 w-1.5 bg-blue-400"></div>
+                                        <h2 className="text-lg font-bold text-slate-400 uppercase tracking-widest font-mono">Key Career Milestones</h2>
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-6">
+                                        {[
+                                            { id: 1, title: "6 Years Entrepreneurship", hint: "Foundational Resilience", icon: "Lightbulb" },
+                                            { id: 2, title: "IT Service Lifecycle", hint: "Hands-on Technical Depth", icon: "Settings" },
+                                            { id: 3, title: "Building PMO Governance", hint: "System-Level Perspective", icon: "Workflow" }
+                                        ].map((phase) => (
+                                            <div key={phase.id} className="flex flex-col items-center">
+                                                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg mb-3 shadow-lg shadow-blue-600/40">{phase.id}</div>
+                                                <div className="bg-white/10 border border-white/20 p-5 rounded-xl text-center w-full h-36 flex flex-col items-center justify-center hover:bg-white/20 transition-all">
+                                                    <div className="text-blue-400 mb-3">
+                                                        <Icon name={phase.icon} size={32} />
+                                                    </div>
+                                                    <h4 className="text-base lg:text-lg font-bold leading-tight mb-2">{phase.title}</h4>
+                                                    <div className="text-[10px] lg:text-xs bg-blue-600/40 text-blue-100 px-3 py-1 rounded-full uppercase font-bold tracking-wider">{phase.hint}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Footer */}
+                                <div className="mt-auto flex justify-between items-center pt-6 border-t border-white/10">
+                                    <div className="bg-white text-slate-900 px-8 py-3 rounded-full flex items-center gap-2 shadow-xl">
+                                        <Icon name="Cpu" size={20} className="text-blue-600" />
+                                        <span className="text-lg font-black tracking-tight uppercase">Scaling Scalable Structures</span>
+                                    </div>
+                                    <div className="text-2xl font-black">
+                                        Driving Growth at <span className="text-blue-400">ASUS</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Navigation Buttons */}
+                        <button 
+                            onClick={prevSlide}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-slate-900/10 hover:bg-slate-900/30 p-3 rounded-full text-slate-800 transition-all z-50 slide-nav group"
+                            aria-label="Previous Slide"
+                        >
+                            <Icon name="ChevronLeft" size={32} className="group-hover:scale-110 transition-transform" />
+                        </button>
+                        <button 
+                            onClick={nextSlide}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-slate-900/10 hover:bg-slate-900/30 p-3 rounded-full text-slate-800 transition-all z-50 slide-nav group"
+                            aria-label="Next Slide"
+                        >
+                            <Icon name="ChevronRight" size={32} className="group-hover:scale-110 transition-transform" />
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
