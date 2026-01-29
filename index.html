@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WOLF 職涯里程碑與專業核心</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,38 +18,28 @@
             font-family: 'Inter', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f1f5f9;
-            overflow: hidden; /* 強制全域不滾動 */
+            overflow: hidden;
+            background-color: #e2e8f0;
         }
         .slide-container {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
+            /* 核心：確保在任何螢幕下都不超出視窗高度，並儘量維持 16:9 */
+            max-height: 95vh;
+            max-width: 95vw;
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            height: auto;
         }
-        /* 桌面版維持 16:9 比例感 */
-        @media (min-width: 768px) {
-            .content-box {
-                aspect-ratio: 16 / 9;
-                max-height: 85vh;
-                width: 100%;
-                max-width: 1100px;
-            }
-        }
-        /* 手機版填滿可用空間 */
-        @media (max-width: 767px) {
-            .content-box {
-                height: 92vh;
-                width: 100%;
+        @media (min-aspect-ratio: 16/9) {
+            .slide-container {
+                width: auto;
+                height: 95vh;
             }
         }
         .animate-fadeIn {
-            animation: fadeIn 0.4s ease-out forwards;
+            animation: fadeIn 0.4s ease-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -63,7 +53,7 @@
         const Icon = ({ name, size = 24, className = "" }) => {
             const iconRef = useRef(null);
             useEffect(() => {
-                if (iconRef.current && lucide[name]) {
+                if (iconRef.current) {
                     iconRef.current.innerHTML = '';
                     const iconElement = lucide.createIcons({
                         icons: { [name]: lucide[name] },
@@ -85,66 +75,65 @@
             const prevSlide = () => setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
 
             return (
-                <div className="slide-container">
-                    {/* Content Box */}
-                    <div className="content-box relative bg-white shadow-2xl overflow-hidden border border-slate-200 rounded-2xl flex flex-col">
+                <div className="h-screen w-screen flex items-center justify-center p-2">
+                    <div className="slide-container relative bg-white shadow-2xl overflow-hidden border border-slate-300 rounded-xl flex flex-col">
                         
                         {/* Slide 1: Chinese Version */}
                         {currentSlide === 0 && (
-                            <div className="h-full w-full flex flex-col px-6 py-5 md:px-16 md:py-10 bg-white animate-fadeIn">
-                                {/* Header - 手機版標題縮小避免超標 */}
-                                <div className="text-center mb-4 md:mb-8 shrink-0">
-                                    <h1 className="text-xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-1">WOLF 的職涯里程碑與專業核心</h1>
-                                    <p className="text-sm md:text-xl lg:text-2xl text-blue-600 font-bold tracking-wide">從執行到管理的資源整合專家</p>
+                            <div className="h-full w-full flex flex-col px-[4%] py-[3%] bg-white animate-fadeIn">
+                                {/* Header - 使用動態字體與間距 */}
+                                <div className="text-center mb-[2vh]">
+                                    <h1 className="text-[clamp(1.5rem,5vh,3rem)] font-extrabold text-slate-900 leading-tight">WOLF 的職涯里程碑與專業核心</h1>
+                                    <p className="text-[clamp(1rem,2.5vh,1.5rem)] text-blue-600 font-bold tracking-wide">從執行到管理的資源整合專家</p>
                                 </div>
 
                                 {/* Overview Section */}
-                                <div className="mb-4 md:mb-8 shrink-0">
-                                    <div className="flex items-center gap-2 mb-2 md:mb-4">
-                                        <div className="h-4 w-1.5 bg-slate-900"></div>
-                                        <h2 className="text-[10px] md:text-sm font-bold text-slate-400 uppercase tracking-widest">個人專業概覽</h2>
+                                <div className="flex-none mb-[2vh]">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <div className="h-4 lg:h-5 w-1.5 bg-slate-900"></div>
+                                        <h2 className="text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-widest">個人專業概覽</h2>
                                     </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8">
-                                        <div className="bg-slate-50 border border-slate-100 p-3 md:p-6 flex items-center gap-4 md:gap-6 rounded-xl shadow-sm">
-                                            <div className="text-3xl md:text-6xl font-black text-slate-800 leading-none">14<span className="text-blue-600">+</span></div>
-                                            <div>
-                                                <h3 className="text-xs md:text-xl font-bold">14+ 年跨領域專案經驗</h3>
-                                                <p className="text-slate-500 text-[10px] md:text-sm font-medium">IT 服務、製造業及金融業</p>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="bg-slate-50 border border-slate-200 p-[3%] flex items-center gap-4 lg:gap-6 rounded-xl shadow-sm">
+                                            <div className="text-4xl lg:text-6xl font-black text-slate-800 leading-none">14<span className="text-blue-600">+</span></div>
+                                            <div className="min-w-0">
+                                                <h3 className="text-sm lg:text-xl font-bold truncate">14+ 年跨領域專案經驗</h3>
+                                                <p className="text-slate-500 text-[10px] lg:text-sm font-medium">IT 服務、製造業及金融業</p>
                                             </div>
                                         </div>
-                                        <div className="bg-slate-50 border border-slate-100 p-3 md:p-6 flex items-center gap-4 md:gap-6 rounded-xl shadow-sm">
-                                            <div className="bg-slate-900 p-2 md:p-4 rounded-lg text-white shrink-0">
-                                                <Icon name="Award" size={24} className="md:w-10 md:h-10" />
+                                        <div className="bg-slate-50 border border-slate-200 p-[3%] flex items-center gap-4 lg:gap-6 rounded-xl shadow-sm">
+                                            <div className="bg-slate-900 p-2 lg:p-4 rounded-lg text-white shrink-0">
+                                                <Icon name="Award" size={32} className="lg:w-10 lg:h-10" />
                                             </div>
-                                            <div>
-                                                <h3 className="text-xs md:text-xl font-bold">PMP 國際專案管理師</h3>
-                                                <p className="text-slate-500 text-[10px] md:text-sm font-medium">具備國際標準知識體系</p>
+                                            <div className="min-w-0">
+                                                <h3 className="text-sm lg:text-xl font-bold truncate">PMP 國際專案管理師</h3>
+                                                <p className="text-slate-500 text-[10px] lg:text-sm font-medium">具備國際標準知識體系</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Timeline Section - 手機版垂直排列以適應空間 */}
-                                <div className="flex-1 min-h-0 mb-4 md:mb-8 flex flex-col justify-center">
-                                    <div className="flex items-center gap-2 mb-3 md:mb-5 shrink-0">
-                                        <div className="h-4 w-1.5 bg-slate-900"></div>
-                                        <h2 className="text-[10px] md:text-sm font-bold text-slate-400 uppercase tracking-widest">職涯發展三部曲</h2>
+                                {/* Timeline Section - 核心彈性區域 */}
+                                <div className="flex-1 min-h-0 flex flex-col justify-center mb-[2vh]">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="h-4 lg:h-5 w-1.5 bg-slate-900"></div>
+                                        <h2 className="text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-widest">職涯發展三部曲</h2>
                                     </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 relative">
-                                        <div className="hidden md:block absolute top-5 left-0 w-full h-0.5 bg-slate-100 -z-0"></div>
+                                    <div className="grid grid-cols-3 gap-4 lg:gap-6 relative">
+                                        <div className="absolute top-[1.25rem] lg:top-[1.5rem] left-0 w-full h-0.5 bg-slate-100 -z-0"></div>
                                         {[
                                             { id: 1, title: "階段一：6 年創業實戰", sub: "奠定開拓與解決問題能力", icon: "Rocket" },
                                             { id: 2, title: "階段二：IT 服務一條龍", sub: "涵蓋售前、開發至後續維護", icon: "Workflow" },
                                             { id: 3, title: "階段三：PMO 專案治理", sub: "建立系統化的管理制度", icon: "Landmark" }
                                         ].map((phase) => (
-                                            <div key={phase.id} className="relative z-10 flex flex-row md:flex-col items-center gap-3 md:gap-0">
-                                                <div className="w-6 h-6 md:w-10 md:h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[10px] md:text-lg md:mb-3 border-2 md:border-4 border-white shadow-md shrink-0">{phase.id}</div>
-                                                <div className="bg-white border border-slate-100 p-2 md:p-6 rounded-xl text-left md:text-center shadow-sm w-full md:h-40 flex flex-col items-start md:items-center justify-center hover:border-blue-200 transition-all">
-                                                    <div className="text-blue-600 mb-2 hidden md:block">
-                                                        <Icon name={phase.icon} size={32} />
+                                            <div key={phase.id} className="relative z-10 flex flex-col items-center">
+                                                <div className="w-7 h-7 lg:w-10 lg:h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs lg:text-lg mb-2 border-2 lg:border-4 border-white shadow-md shrink-0">{phase.id}</div>
+                                                <div className="bg-white border border-slate-200 p-3 lg:p-5 rounded-xl text-center shadow-sm w-full min-h-0 flex-1 flex flex-col items-center justify-center hover:border-blue-300 transition-all">
+                                                    <div className="text-blue-600 mb-1 lg:mb-2">
+                                                        <Icon name={phase.icon} size={24} className="lg:w-8 lg:h-8" />
                                                     </div>
-                                                    <h4 className="text-xs md:text-lg font-bold mb-0.5 leading-tight">{phase.title}</h4>
-                                                    <p className="text-[9px] md:text-xs text-slate-500 font-medium leading-tight">{phase.sub}</p>
+                                                    <h4 className="text-[11px] lg:text-lg font-bold mb-1 leading-tight">{phase.title}</h4>
+                                                    <p className="text-[9px] lg:text-xs text-slate-500 font-medium leading-tight">{phase.sub}</p>
                                                 </div>
                                             </div>
                                         ))}
@@ -152,12 +141,12 @@
                                 </div>
 
                                 {/* Footer */}
-                                <div className="mt-auto flex flex-col md:flex-row justify-between items-center gap-3 pt-3 md:pt-6 border-t border-slate-50 shrink-0">
-                                    <div className="bg-blue-600 text-white px-4 md:px-8 py-1.5 md:py-3 rounded-full flex items-center gap-2 shadow-lg">
-                                        <Icon name="Target" size={16} className="md:w-5 md:h-5" />
-                                        <span className="text-[10px] md:text-lg font-bold">核心價值：能動手做的資源整合者</span>
+                                <div className="flex-none mt-auto flex justify-between items-center pt-3 border-t border-slate-100">
+                                    <div className="bg-blue-600 text-white px-4 lg:px-8 py-2 rounded-full flex items-center gap-2 shadow-lg">
+                                        <Icon name="Target" size={18} />
+                                        <span className="text-xs lg:text-lg font-bold">核心價值：能動手做的資源整合者</span>
                                     </div>
-                                    <div className="text-lg md:text-3xl font-black text-slate-800">
+                                    <div className="text-base lg:text-3xl font-black text-slate-800">
                                         期待加入 <span className="text-blue-600">華碩</span>，貢獻專業價值
                                     </div>
                                 </div>
@@ -166,59 +155,59 @@
 
                         {/* Slide 2: English Version */}
                         {currentSlide === 1 && (
-                            <div className="h-full w-full flex flex-col px-6 py-5 md:px-16 md:py-10 bg-slate-900 text-white animate-fadeIn">
+                            <div className="h-full w-full flex flex-col px-[4%] py-[3%] bg-slate-900 text-white animate-fadeIn">
                                 {/* Header */}
-                                <div className="text-center mb-4 md:mb-8 shrink-0">
-                                    <h1 className="text-lg md:text-4xl lg:text-5xl font-extrabold mb-1">Program & Transformation Professional</h1>
-                                    <p className="text-xs md:text-xl lg:text-2xl text-blue-400 font-bold tracking-tight">Strategic Execution • Process Scalability • PMO Expert</p>
+                                <div className="text-center mb-[2vh]">
+                                    <h1 className="text-[clamp(1.2rem,5vh,2.8rem)] font-extrabold mb-1 leading-tight">Program & Transformation Professional</h1>
+                                    <p className="text-[clamp(0.9rem,2.5vh,1.4rem)] text-blue-400 font-bold tracking-tight">Strategic Execution • Process Scalability • PMO Expert</p>
                                 </div>
 
-                                {/* Overview */}
-                                <div className="mb-4 md:mb-8 shrink-0">
-                                    <div className="flex items-center gap-2 mb-2 md:mb-4">
+                                {/* Overview Section */}
+                                <div className="flex-none mb-[2vh]">
+                                    <div className="flex items-center gap-2 mb-2">
                                         <div className="h-4 w-1.5 bg-blue-400"></div>
-                                        <h2 className="text-[10px] md:text-sm font-bold text-slate-500 uppercase tracking-widest font-mono">Expertise Profile</h2>
+                                        <h2 className="text-xs lg:text-sm font-bold text-slate-400 uppercase tracking-widest font-mono">Expertise Profile</h2>
                                     </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8">
-                                        <div className="bg-white/5 border border-white/10 p-3 md:p-6 flex items-center gap-4 md:gap-6 rounded-xl">
-                                            <div className="text-3xl md:text-6xl font-black text-white leading-none">14<span className="text-blue-400">+</span></div>
-                                            <div>
-                                                <h3 className="text-xs md:text-xl font-bold italic">14+ Years Experience</h3>
-                                                <p className="text-blue-200 text-[10px] md:text-sm font-medium">IT • Manufacturing • Finance</p>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="bg-white/5 border border-white/10 p-[3%] flex items-center gap-4 lg:gap-6 rounded-xl">
+                                            <div className="text-4xl lg:text-6xl font-black text-white leading-none">14<span className="text-blue-400">+</span></div>
+                                            <div className="min-w-0">
+                                                <h3 className="text-sm lg:text-xl font-bold italic leading-tight truncate">14+ Years Experience</h3>
+                                                <p className="text-blue-200 text-[10px] lg:text-sm font-medium">IT • Manufacturing • Finance</p>
                                             </div>
                                         </div>
-                                        <div className="bg-white/5 border border-white/10 p-3 md:p-6 flex items-center gap-4 md:gap-6 rounded-xl">
-                                            <div className="bg-blue-600 p-2 md:p-4 rounded-lg text-white shrink-0">
-                                                <Icon name="ShieldCheck" size={24} className="md:w-10 md:h-10" />
+                                        <div className="bg-white/5 border border-white/10 p-[3%] flex items-center gap-4 lg:gap-6 rounded-xl">
+                                            <div className="bg-blue-600 p-2 lg:p-4 rounded-lg text-white shrink-0">
+                                                <Icon name="ShieldCheck" size={32} className="lg:w-10 lg:h-10" />
                                             </div>
-                                            <div>
-                                                <h3 className="text-xs md:text-xl font-bold italic">PMP® Certified</h3>
-                                                <p className="text-blue-200 text-[10px] md:text-sm font-medium">Global Standard Methodology</p>
+                                            <div className="min-w-0">
+                                                <h3 className="text-sm lg:text-xl font-bold italic leading-tight truncate">PMP® Certified</h3>
+                                                <p className="text-blue-200 text-[10px] lg:text-sm font-medium">Global Standard Methodology</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Three Phases */}
-                                <div className="flex-1 min-h-0 mb-4 md:mb-8 flex flex-col justify-center">
-                                    <div className="flex items-center gap-2 mb-3 md:mb-5 shrink-0">
+                                <div className="flex-1 min-h-0 flex flex-col justify-center mb-[2vh]">
+                                    <div className="flex items-center gap-2 mb-3">
                                         <div className="h-4 w-1.5 bg-blue-400"></div>
-                                        <h2 className="text-[10px] md:text-sm font-bold text-slate-500 uppercase tracking-widest font-mono">Key Career Milestones</h2>
+                                        <h2 className="text-xs lg:text-sm font-bold text-slate-400 uppercase tracking-widest font-mono">Key Career Milestones</h2>
                                     </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+                                    <div className="grid grid-cols-3 gap-4 lg:gap-6">
                                         {[
                                             { id: 1, title: "6 Years Entrepreneurship", hint: "Foundational Resilience", icon: "Lightbulb" },
                                             { id: 2, title: "IT Service Lifecycle", hint: "Hands-on Technical Depth", icon: "Settings" },
                                             { id: 3, title: "Building PMO Governance", hint: "System-Level Perspective", icon: "Workflow" }
                                         ].map((phase) => (
-                                            <div key={phase.id} className="flex flex-row md:flex-col items-center gap-3 md:gap-0">
-                                                <div className="w-6 h-6 md:w-10 md:h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-[10px] md:text-lg md:mb-3 shadow-lg shrink-0">{phase.id}</div>
-                                                <div className="bg-white/10 border border-white/10 p-2 md:p-6 rounded-xl text-left md:text-center w-full md:h-40 flex flex-col items-start md:items-center justify-center hover:bg-white/20 transition-all">
-                                                    <div className="text-blue-400 mb-2 hidden md:block">
-                                                        <Icon name={phase.icon} size={32} />
+                                            <div key={phase.id} className="flex flex-col items-center">
+                                                <div className="w-7 h-7 lg:w-10 lg:h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs lg:text-lg mb-2 shadow-lg shrink-0">{phase.id}</div>
+                                                <div className="bg-white/10 border border-white/20 p-3 lg:p-5 rounded-xl text-center w-full min-h-0 flex-1 flex flex-col items-center justify-center hover:bg-white/20 transition-all">
+                                                    <div className="text-blue-400 mb-1 lg:mb-2">
+                                                        <Icon name={phase.icon} size={24} className="lg:w-8 lg:h-8" />
                                                     </div>
-                                                    <h4 className="text-xs md:text-lg font-bold leading-tight mb-1">{phase.title}</h4>
-                                                    <div className="text-[8px] md:text-[10px] bg-blue-600/40 text-blue-100 px-2 py-0.5 rounded-full uppercase font-bold tracking-wider">{phase.hint}</div>
+                                                    <h4 className="text-[11px] lg:text-base font-bold leading-tight mb-1">{phase.title}</h4>
+                                                    <div className="text-[8px] lg:text-[10px] bg-blue-600/40 text-blue-100 px-2 py-0.5 rounded-full uppercase font-bold tracking-wider">{phase.hint}</div>
                                                 </div>
                                             </div>
                                         ))}
@@ -226,25 +215,27 @@
                                 </div>
 
                                 {/* Footer */}
-                                <div className="mt-auto flex flex-col md:flex-row justify-between items-center gap-3 pt-3 md:pt-6 border-t border-white/10 shrink-0">
-                                    <div className="bg-white text-slate-900 px-4 md:px-8 py-1.5 md:py-3 rounded-full flex items-center gap-2 shadow-xl">
-                                        <Icon name="Cpu" size={16} className="text-blue-600 md:w-5 md:h-5" />
-                                        <span className="text-[10px] md:text-base font-black tracking-tight uppercase">Scaling Scalable Structures</span>
+                                <div className="flex-none mt-auto flex justify-between items-center pt-3 border-t border-white/10">
+                                    <div className="bg-white text-slate-900 px-4 lg:px-8 py-2 rounded-full flex items-center gap-2 shadow-xl shrink-0">
+                                        <Icon name="Cpu" size={18} className="text-blue-600" />
+                                        <span className="text-[10px] lg:text-base font-black tracking-tight uppercase">CORE: Scaling Scalable Structures</span>
                                     </div>
-                                    <div className="text-lg md:text-3xl font-black">
+                                    <div className="text-base lg:text-3xl font-black">
                                         Driving Growth at <span className="text-blue-400">ASUS</span>
                                     </div>
                                 </div>
                             </div>
                         )}
 
-                        {/* Navigation Buttons */}
-                        <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between px-1 md:px-4 pointer-events-none">
-                            <button onClick={prevSlide} className="pointer-events-auto bg-white/10 md:bg-slate-900/10 hover:bg-slate-900/30 p-1.5 md:p-4 rounded-full text-slate-400 md:text-slate-800 transition-all backdrop-blur-sm">
-                                <Icon name="ChevronLeft" size={24} className="md:w-8 md:h-8" />
+                        {/* Navigation Controls */}
+                        <div className="absolute inset-y-0 left-2 lg:left-4 flex items-center">
+                            <button onClick={prevSlide} className="slide-nav bg-slate-900/10 hover:bg-slate-900/30 p-1 lg:p-3 rounded-full text-slate-800 transition-all">
+                                <Icon name="ChevronLeft" size={24} className="lg:w-8 lg:h-8" />
                             </button>
-                            <button onClick={nextSlide} className="pointer-events-auto bg-white/10 md:bg-slate-900/10 hover:bg-slate-900/30 p-1.5 md:p-4 rounded-full text-slate-400 md:text-slate-800 transition-all backdrop-blur-sm">
-                                <Icon name="ChevronRight" size={24} className="md:w-8 md:h-8" />
+                        </div>
+                        <div className="absolute inset-y-0 right-2 lg:right-4 flex items-center">
+                            <button onClick={nextSlide} className="slide-nav bg-slate-900/10 hover:bg-slate-900/30 p-1 lg:p-3 rounded-full text-slate-800 transition-all">
+                                <Icon name="ChevronRight" size={24} className="lg:w-8 lg:h-8" />
                             </button>
                         </div>
                     </div>
